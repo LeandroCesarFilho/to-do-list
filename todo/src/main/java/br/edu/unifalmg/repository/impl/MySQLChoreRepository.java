@@ -30,6 +30,7 @@ public class MySQLChoreRepository implements ChoreRepository {
                         .description(resultSet.getString("description"))
                         .isCompleted(resultSet.getBoolean("isCompleted"))
                         .deadline(resultSet.getDate("deadline").toLocalDate())
+                        .id(resultSet.getLong("id"))
                         .build();
 
                 chores.add(chore);
@@ -69,4 +70,34 @@ public class MySQLChoreRepository implements ChoreRepository {
             System.out.println("Error when closing database connections.");
         }
     }
+
+    @Override
+    public boolean update(Chore chore) {
+        if (!connectToMySQL()) {
+            return Boolean.FALSE;
+        }
+
+        try {
+            preparedStatement = connection.prepareStatement(
+                    "UPDATE db.chore SET description = ?, isCompleted = ?, deadline = ? WHERE id = ?"
+            );
+            preparedStatement.setString(1, chore.getDescription());
+            preparedStatement.setBoolean(2, chore.getIsCompleted());
+            preparedStatement.setDate(3, Date.valueOf(chore.getDeadline()));
+            preparedStatement.setLong(4, chore.getId());
+            int affectedRows = preparedStatement.executeUpdate();
+
+            if (affectedRows > 0) {
+                return Boolean.TRUE;
+            }
+
+        } catch (SQLException exception) {
+            System.out.println("Error when updating the chore");
+        } finally {
+            closeConnections();
+        }
+
+        return Boolean.FALSE;
+    }
+
 }

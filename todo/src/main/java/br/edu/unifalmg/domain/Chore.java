@@ -18,4 +18,11 @@ public class Chore {
 
     private LocalDate deadline;
 
+    private Long id;
+
+    public Chore(String description, Boolean isCompleted, LocalDate deadline) {
+        this.description = description;
+        this.isCompleted = isCompleted;
+        this.deadline = deadline;
+    }
 }

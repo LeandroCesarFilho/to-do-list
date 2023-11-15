@@ -179,6 +179,13 @@ public class ChoreService {
         return repository.save(this.chores);
     }
 
+    public Boolean updateChore(Chore chore){
+        if(Objects.isNull(chore)){
+            return Boolean.FALSE;
+        }
+        return repository.update(chore);
+    }
+
     private final Predicate<List<Chore>> isChoreListEmpty = choreList -> choreList.isEmpty();
 
 }

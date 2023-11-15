@@ -52,4 +52,11 @@ public class FileChoreRepository implements ChoreRepository {
         return false;
     }
 
+
+    @Override
+    public boolean update(Chore chore){
+        throw new RuntimeException("Operation not supported yet");
+    }
+
 }
+
